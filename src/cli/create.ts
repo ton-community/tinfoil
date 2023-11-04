@@ -1,5 +1,5 @@
 import { Args, Runner } from './cli';
-import { open, mkdir, readdir, lstat, readFile } from 'fs/promises';
+import { open, mkdir, readdir, lstat, readFile, appendFile } from 'fs/promises';
 import path from 'path';
 import { executeTemplate, TEMPLATES_DIR } from '../template';
 import { selectOption } from '../utils';
@@ -103,6 +103,8 @@ export const create: Runner = async (args: Args, ui: UIProvider) => {
     await createFiles(path.join(TEMPLATES_DIR, lang, 'common'), process.cwd(), replaces);
 
     await createFiles(path.join(TEMPLATES_DIR, lang, template), process.cwd(), replaces);
+
+    await appendFile(path.join(process.cwd(), 'index.ts'), `export * from './wrappers/${name}';\n`);
 
     if (lang === 'tact') {
         await buildOne(name, ui);
