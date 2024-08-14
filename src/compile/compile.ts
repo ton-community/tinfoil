@@ -3,6 +3,7 @@ import {
     CompilerConfig as FuncCompilerConfig,
     compilerVersion,
     SourcesArray,
+    DebugInfoEntry,
 } from '@ton-community/func-js';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
@@ -41,6 +42,7 @@ export type FuncCompileResult = {
     targets: string[];
     snapshot: SourcesArray;
     version: string;
+    debugInfo?: DebugInfoEntry[];
 };
 
 async function doCompileFunc(config: FuncCompilerConfig): Promise<FuncCompileResult> {
@@ -61,6 +63,7 @@ async function doCompileFunc(config: FuncCompilerConfig): Promise<FuncCompileRes
         targets,
         snapshot: cr.snapshot,
         version: (await compilerVersion()).funcVersion,
+        debugInfo: cr.debugInfo,
     };
 }
 
@@ -143,11 +146,16 @@ async function doCompileInner(name: string, config: CompilerConfig): Promise<Com
         targets: config.targets,
         sources: config.sources ?? ((path: string) => readFileSync(path).toString()),
         optLevel: config.optLevel,
+        debugInfo: config.debugInfo,
     } as FuncCompilerConfig);
 }
 
 export async function doCompile(name: string, opts?: CompileOpts): Promise<CompileResult> {
     const config = await getCompilerConfigForContract(name);
+
+    if (opts?.debugInfo && config.lang === 'func') {
+        config.debugInfo = true;
+    }
 
     if (config.preCompileHook !== undefined) {
         await config.preCompileHook({
@@ -168,6 +176,7 @@ export async function doCompile(name: string, opts?: CompileOpts): Promise<Compi
 
 export type CompileOpts = {
     hookUserData?: any;
+    debugInfo?: boolean;
 };
 
 export async function compile(name: string, opts?: CompileOpts): Promise<Cell> {

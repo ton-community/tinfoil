@@ -20,6 +20,7 @@ export type TactCompilerConfig = {
 export type FuncCompilerConfig = {
     lang?: 'func';
     optLevel?: number;
+    debugInfo?: boolean;
 } & (
     | {
           targets: string[];
