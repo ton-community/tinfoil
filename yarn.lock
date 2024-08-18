@@ -188,22 +188,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ton-community/func-js-bin@npm:0.4.4-debuginfo.0":
-  version: 0.4.4-debuginfo.0
-  resolution: "@ton-community/func-js-bin@npm:0.4.4-debuginfo.0"
-  checksum: 10/841de2e839b36b0b52702c4ab34cc8e559bbd24029eae66d63f14352ea9d6c25fadb9a1a3fcbde5c0e485a61ef39298d40f02b505a63a671dfb5adc1c3ba0735
+"@ton-community/func-js-bin@npm:0.4.4-debuginfo.1":
+  version: 0.4.4-debuginfo.1
+  resolution: "@ton-community/func-js-bin@npm:0.4.4-debuginfo.1"
+  checksum: 10/ed0fb81f016f16f3c493133c5d62a3456b7d5415e21036d78faa20bda44378665a110e770602f554de76ac4c09d92e61dede225abb2f1d1a245016e6624a4fad
   languageName: node
   linkType: hard
 
-"@ton-community/func-js@npm:^0.8.0-debuginfo.0":
-  version: 0.8.0-debuginfo.0
-  resolution: "@ton-community/func-js@npm:0.8.0-debuginfo.0"
+"@ton-community/func-js@npm:^0.8.0-debuginfo.1":
+  version: 0.8.0-debuginfo.1
+  resolution: "@ton-community/func-js@npm:0.8.0-debuginfo.1"
   dependencies:
-    "@ton-community/func-js-bin": "npm:0.4.4-debuginfo.0"
+    "@ton-community/func-js-bin": "npm:0.4.4-debuginfo.1"
     arg: "npm:^5.0.2"
   bin:
     func-js: dist/cli.js
-  checksum: 10/1e6f8a525fc3a5c3bb625e3c76d0fd53078b1bf98cdea21cff8a707b3275651e7ff2d015760916b100f3650c53f4e8a18bb2a7b63a98034581e4c0e4fc4601ce
+  checksum: 10/efc843ee54bece82288dcc91ce5bff2e6cf62029de66245ce2b83dc33a4c1af41a65f672bc76089c3127fc67984a61b0a6c9f86ab3d42df55debaec60c44d86d
   languageName: node
   linkType: hard
 
@@ -213,7 +213,7 @@ __metadata:
   dependencies:
     "@orbs-network/ton-access": "npm:^2.3.3"
     "@tact-lang/compiler": "npm:^1.4.0"
-    "@ton-community/func-js": "npm:^0.8.0-debuginfo.0"
+    "@ton-community/func-js": "npm:^0.8.0-debuginfo.1"
     "@ton/core": "npm:^0.56.0"
     "@ton/crypto": "npm:^3.2.0"
     "@ton/ton": "npm:^13.11.0"

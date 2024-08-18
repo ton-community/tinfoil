@@ -3,7 +3,7 @@ import {
     CompilerConfig as FuncCompilerConfig,
     compilerVersion,
     SourcesArray,
-    DebugInfoEntry,
+    DebugInfo,
 } from '@ton-community/func-js';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
@@ -42,7 +42,7 @@ export type FuncCompileResult = {
     targets: string[];
     snapshot: SourcesArray;
     version: string;
-    debugInfo?: DebugInfoEntry[];
+    debugInfo?: DebugInfo;
 };
 
 async function doCompileFunc(config: FuncCompilerConfig): Promise<FuncCompileResult> {
