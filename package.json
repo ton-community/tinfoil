@@ -1,6 +1,6 @@
 {
     "name": "@ton/blueprint",
-    "version": "0.23.0-debugger.1",
+    "version": "0.23.0-debugger.2",
     "description": "Framework for development of TON smart contracts",
     "main": "dist/index.js",
     "bin": "./dist/cli/cli.js",
@@ -36,7 +36,7 @@
     "dependencies": {
         "@orbs-network/ton-access": "^2.3.3",
         "@tact-lang/compiler": "^1.4.0",
-        "@ton-community/func-js": "^0.8.0-debuginfo.1",
+        "@ton-community/func-js": "^0.8.0-debuginfo.2",
         "@tonconnect/sdk": "^2.2.0",
         "arg": "^5.0.2",
         "chalk": "^4.1.0",
