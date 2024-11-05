@@ -172,22 +172,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ton-community/func-js-bin@npm:0.4.4-newops.1":
-  version: 0.4.4-newops.1
-  resolution: "@ton-community/func-js-bin@npm:0.4.4-newops.1"
-  checksum: 10/1bddbd618abfb68fce0777849c88827bdd29bd3bfcf41d54f83f9acf43ea3323fc03ec25873a766eb7a1d4a0ffa08199b24eff3cbeb31fe25dbe69431756b9ea
+"@ton-community/func-js-bin@npm:0.4.6-beta.1":
+  version: 0.4.6-beta.1
+  resolution: "@ton-community/func-js-bin@npm:0.4.6-beta.1"
+  checksum: 10/003e23a48d2b319f31d83855d1e5ab72d0fc6ea137f2533b350e285d50b06aeccd02e49a482cd0a0c1fe08a74dcddf978399a0b45f37e6922df61cb504108bbb
   languageName: node
   linkType: hard
 
-"@ton-community/func-js@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@ton-community/func-js@npm:0.7.0"
+"@ton-community/func-js@npm:0.8.0-beta.1":
+  version: 0.8.0-beta.1
+  resolution: "@ton-community/func-js@npm:0.8.0-beta.1"
   dependencies:
-    "@ton-community/func-js-bin": "npm:0.4.4-newops.1"
+    "@ton-community/func-js-bin": "npm:0.4.6-beta.1"
     arg: "npm:^5.0.2"
   bin:
     func-js: dist/cli.js
-  checksum: 10/506192acff889a1abcdb8cd1f3a66e495b88a75579ebd390a33d8f302e0ac012e327a1e6a17d7c4fb5aab98d2399e06b621fa9374829450c54f6198769e2637c
+  checksum: 10/0e1b1120db70ad3e653c28da10a0a43b60e82c922ebaf885d07a067641d5a7a0892fed7a807dc25206cced5bcaccdadc531ff1e6f8824e166070bdeb6fe153d9
   languageName: node
   linkType: hard
 
@@ -196,7 +196,7 @@ __metadata:
   resolution: "@ton/blueprint@workspace:."
   dependencies:
     "@tact-lang/compiler": "npm:^1.4.0"
-    "@ton-community/func-js": "npm:^0.7.0"
+    "@ton-community/func-js": "npm:0.8.0-beta.1"
     "@ton/core": "npm:^0.58.1"
     "@ton/crypto": "npm:^3.3.0"
     "@ton/tolk-js": "npm:^0.6.0"

@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - main
+      - testnet-fix
 name: Publish to NPM
 jobs:
   publish:
@@ -29,4 +30,4 @@ jobs:
       - name: Publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: yarn npm publish --access public
+        run: yarn npm publish --access public --tag beta
