@@ -288,7 +288,7 @@ export const verify: Runner = async (args: Args, ui: UIProvider, context: Runner
 
     const backend = backends[network];
 
-    const sourceRegistry   = networkProvider.open(new SourceRegistry(backend.sourceRegistry));
+    const sourceRegistry = networkProvider.open(new SourceRegistry(backend.sourceRegistry));
     const verifierRegistry = networkProvider.open(new VerifierRegistry(await sourceRegistry.getVerifierRegistry()));
 
     const verifier = (await verifierRegistry.getVerifiers()).find((v) => v.name === backend.id);

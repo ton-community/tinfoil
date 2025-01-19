@@ -85,7 +85,7 @@ export const create: Runner = async (args: Args, ui: UIProvider) => {
         name,
         loweredName: name.substring(0, 1).toLowerCase() + name.substring(1),
         snakeName,
-        contractPath: 'contracts/' + snakeName + '.' + (lang === 'func' ? 'fc' : (lang === 'tolk' ? 'tolk' : 'tact')),
+        contractPath: 'contracts/' + snakeName + '.' + (lang === 'func' ? 'fc' : lang === 'tolk' ? 'tolk' : 'tact'),
     };
 
     const config = await getConfig();

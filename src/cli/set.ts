@@ -19,7 +19,7 @@ const getVersions = (pkg: string, ui: UIProvider): Promise<string[]> => {
                         if (Array.isArray(resJson)) {
                             resolve(resJson);
                         } else {
-                            reject(new TypeError("Expect json array on stdout, but got:\n" + stdout));
+                            reject(new TypeError('Expect json array on stdout, but got:\n' + stdout));
                         }
                     } catch (e) {
                         reject(e);
@@ -30,7 +30,7 @@ const getVersions = (pkg: string, ui: UIProvider): Promise<string[]> => {
                 }
             }
             if (error) {
-                ui.write("Failed to get func-js-bin package versions!");
+                ui.write('Failed to get func-js-bin package versions!');
                 reject(error);
             }
         });
@@ -40,20 +40,20 @@ const getVersions = (pkg: string, ui: UIProvider): Promise<string[]> => {
 const install = (cmd: string, ui: UIProvider): Promise<void> => {
     return new Promise((resolve, reject) => {
         exec(cmd, (error, stdout, stderr) => {
-                if (stderr) {
-                    ui.write(stderr);
-                }
-                if (stdout) {
-                    ui.write(stdout);
-                }
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                resolve();
+            if (stderr) {
+                ui.write(stderr);
+            }
+            if (stdout) {
+                ui.write(stdout);
+            }
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve();
         });
     });
-}
+};
 
 export const set: Runner = async (args: Args, ui: UIProvider) => {
     const localArgs = arg(helpArgs);
@@ -81,10 +81,16 @@ export const set: Runner = async (args: Args, ui: UIProvider) => {
             const packageContents = (await readFile(packagePath)).toString('utf-8');
             const parsedPackage = JSON.parse(packageContents);
 
-            const packageManager: 'npm' | 'yarn' | 'pnpm' | 'other' = await ui.choose('Choose your package manager', ['npm', 'yarn', 'pnpm', 'other'], (s) => s);
+            const packageManager: 'npm' | 'yarn' | 'pnpm' | 'other' = await ui.choose(
+                'Choose your package manager',
+                ['npm', 'yarn', 'pnpm', 'other'],
+                (s) => s,
+            );
 
             if (packageManager === 'other') {
-                ui.write(`Please find out how to override @ton-community/func-js-bin version to ${version} using your package manager, do that, and then install the packages`);
+                ui.write(
+                    `Please find out how to override @ton-community/func-js-bin version to ${version} using your package manager, do that, and then install the packages`,
+                );
                 return;
             }
 

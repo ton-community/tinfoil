@@ -36,7 +36,9 @@ export class DeeplinkProvider implements SendProvider {
             this.#ui.write('\n');
 
             if (err instanceof Error && err.message.includes('code length overflow')) {
-                this.#ui.write('Message is too large to be sent via QR code. Please use the ton:// link or another method.');
+                this.#ui.write(
+                    'Message is too large to be sent via QR code. Please use the ton:// link or another method.',
+                );
                 process.exit(1);
             }
             throw err;

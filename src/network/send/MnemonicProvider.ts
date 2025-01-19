@@ -41,10 +41,14 @@ interface WalletInstance extends Contract {
 }
 
 interface WalletClass {
-    create(args: { workchain: number; publicKey: Buffer }): WalletInstance;
+    create(args: { workchain?: number; publicKey: Buffer; walletId?: any }): WalletInstance;
 }
 
 export type WalletVersion = 'v1r1' | 'v1r2' | 'v1r3' | 'v2r1' | 'v2r2' | 'v3r1' | 'v3r2' | 'v4' | 'v5r1';
+
+export type WalletId = {
+    networkGlobalId: number;
+} | number | null | undefined;
 
 const wallets: Record<WalletVersion, WalletClass> = {
     v1r1: WalletContractV1R1,
@@ -70,6 +74,7 @@ export class MnemonicProvider implements SendProvider {
         secretKey: Buffer;
         client: BlueprintTonClient;
         ui: UIProvider;
+        walletId?: WalletId;
     }) {
         if (!(params.version in wallets)) {
             throw new Error(`Unknown wallet version ${params.version}`);
@@ -81,6 +86,7 @@ export class MnemonicProvider implements SendProvider {
             wallets[params.version].create({
                 workchain: params.workchain ?? 0,
                 publicKey: kp.publicKey,
+                walletId: params.walletId,
             }),
             (params) =>
                 this.#client.provider(

@@ -4,7 +4,15 @@ export { NetworkProvider } from './network/NetworkProvider';
 
 export { createNetworkProvider } from './network/createNetworkProvider';
 
-export { compile, CompileOpts, SourceSnapshot, TolkCompileResult, FuncCompileResult, TactCompileResult, CompileResult } from './compile/compile';
+export {
+    compile,
+    CompileOpts,
+    SourceSnapshot,
+    TolkCompileResult,
+    FuncCompileResult,
+    TactCompileResult,
+    CompileResult,
+} from './compile/compile';
 
 export { CompilerConfig, HookParams } from './compile/CompilerConfig';
 

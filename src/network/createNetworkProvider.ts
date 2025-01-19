@@ -252,9 +252,26 @@ class NetworkProviderImpl implements NetworkProvider {
     }
 }
 
-async function createMnemonicProvider(client: BlueprintTonClient, ui: UIProvider) {
+async function createMnemonicProvider(client: BlueprintTonClient, network: Network, ui: UIProvider) {
     const mnemonic = process.env.WALLET_MNEMONIC ?? '';
     const walletVersion = process.env.WALLET_VERSION ?? '';
+    const networkGlobalId = process.env.WALLET_NETWORK_GLOBAL_ID ? parseInt(process.env.WALLET_NETWORK_GLOBAL_ID) : 0;
+    const walletId = {} as any;
+
+    if (network === 'custom') {
+        if (networkGlobalId === 0) {
+            throw new Error('Mnemonic deployer cannot work with custom network without WALLET_NETWORK_GLOBAL_ID');
+        } else {
+            walletId['networkGlobalId'] = networkGlobalId;
+        }
+    } else if (network === 'testnet') {
+        walletId['networkGlobalId'] = -3;
+    } else if (network === 'mainnet') {
+        walletId['networkGlobalId'] = -293;
+    } else {
+        throw new Error('Unknown network: ' + network);
+    }
+
     if (mnemonic.length === 0 || walletVersion.length === 0) {
         throw new Error(
             'Mnemonic deployer was chosen, but env variables WALLET_MNEMONIC and WALLET_VERSION are not set',
@@ -266,6 +283,7 @@ async function createMnemonicProvider(client: BlueprintTonClient, ui: UIProvider
         client,
         secretKey: keyPair.secretKey,
         ui,
+        walletId,
     });
 }
 
@@ -357,7 +375,7 @@ class NetworkProviderBuilder {
                 provider = new TonConnectProvider(new FSStorage(storagePath), this.ui);
                 break;
             case 'mnemonic':
-                provider = await createMnemonicProvider(client, this.ui);
+                provider = await createMnemonicProvider(client, network, this.ui);
                 break;
             default:
                 throw new Error('Unknown deploy option');

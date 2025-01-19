@@ -34,8 +34,7 @@ export class TonConnectProvider implements SendProvider {
     constructor(storage: Storage, ui: UIProvider) {
         this.#connector = new TonConnect({
             storage: new TonConnectStorage(storage),
-            manifestUrl:
-                'https://raw.githubusercontent.com/ton-org/blueprint/main/tonconnect/manifest.json',
+            manifestUrl: 'https://raw.githubusercontent.com/ton-org/blueprint/main/tonconnect/manifest.json',
         });
         this.#ui = ui;
     }
