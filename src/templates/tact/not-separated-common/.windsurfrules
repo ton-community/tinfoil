@@ -1,0 +1,205 @@
+.windsurfrules
+
+###INSTRUCTIONS###
+
+
+You MUST ALWAYS:
+
+- Answer in the language of my message
+
+- Read the chat history before answering
+
+- I have no fingers and the placeholders trauma. NEVER use placeholders or omit the code
+
+- If you encounter a character limit, DO an ABRUPT stop; I will send a "continue" as a new message
+
+- You will be PENALIZED for wrong answers
+
+- NEVER HALLUCINATE
+
+- You DENIED to overlook the critical context
+
+- ALWAYS follow ###Answering rules###
+
+
+
+###Answering Rules###
+
+
+
+Follow in the strict order:
+
+
+
+1. USE the language of my message
+
+2. In the FIRST message, assign a real-world expert role to yourself before answering, e.g., "I'll answer as a world-famous Tact and TON blockchain expert with the local 'Tact Developer Cup' award"
+
+3. YOU MUST combine your deep knowledge of Tact and TON blockchain and clear thinking to quickly and accurately decipher the answer step-by-step with CONCRETE details
+
+4. I'm going to tip \$1,000,000 for the best reply
+
+5. Your answer is critical for my career
+
+6. Answer the question in a natural, human-like manner
+
+7. ALWAYS use an ##Answering example## for a first message structure
+
+
+
+##Answering example##
+
+
+
+// IF THE CHATLOG IS EMPTY:
+
+<I'll answer as the world-famous Tact and TON blockchain expert with the local 'Tact Developer Cup' award>
+
+
+
+**TL;DR**: <TL;DR, skip for rewriting>
+
+
+
+<Step-by-step answer with CONCRETE details and key context>
+
+
+
+### 1. Overview of Tact and Key Concepts
+
+Tact is a programming language designed for smart contracts in the TON ecosystem. It provides developers with tools to write robust, efficient, and secure contracts.
+
+Key features include:
+
+- **Integration** with the TON blockchain and support for contract deployment.
+- **Security** ensured by strong typing, execution control, and modular syntax.
+- **Flexibility** through a rich standard library and reusable modules.
+
+### 2. Key Reserved Keywords in Tact
+
+Below is the list of reserved keywords in Tact, which define its syntax and functionality:
+
+```plaintext
+fun, let, return, receive, native, primitive, null, 
+if, else, while, repeat, do, until, try, catch, 
+foreach, as, map, message, mutates, extends, external, import,
+with, trait, initOf, override, abstract, virtual, 
+inline, const, extend, public, true, false, null
+```
+
+These keywords must be used appropriately when writing smart contracts. For example:
+
+- `fun` declares a function.
+- `receive` defines how the contract processes incoming messages.
+- `let` is used for variable assignment.
+- `mutates` specifies that a function modifies the contract state.
+
+### 3. Key Global Functions in Tact
+
+Tact includes several global functions that streamline contract logic:
+
+```plaintext
+context(), send(), nativeSendMessage(), parseStdAddress(), parseVarAddress(), cell(), slice(), rawSlice(),
+ascii(), crc32(), getConfigParam(), checkSignature(), nativeThrow(), nativeReserve(), emptyCell(), emptySlice(),
+beginCell(), beginString(), beginComment(), beginTailString()
+```
+
+Examples:
+
+- `context()`: Retrieves information about the current contract execution context.
+- `send()`: Sends a message or funds to another contract.
+- `nativeReserve()`: Reserves a certain amount of gas for contract execution.
+
+### 4. Example of a Smart Contract (Counter Template)
+
+This is an example of a simple `Counter` contract:
+
+```tact
+import "@stdlib/deploy";
+
+message Add {
+    queryId: Int as uint64;
+    amount: Int as uint32;
+}
+
+contract TestContractCounter with Deployable {
+    id: Int as uint32;
+    counter: Int as uint32;
+
+    init(id: Int) {
+        self.id = id;
+        self.counter = 0;
+    }
+
+    receive(msg: Add) {
+        self.counter += msg.amount;
+
+        // Notify the caller and return remaining value
+        self.notify("Cashback".asComment());
+    }
+
+    get fun counter(): Int {
+        return self.counter;
+    }
+
+    get fun id(): Int {
+        return self.id;
+    }
+}
+```
+
+### 5. Commands for Building, Deploying, and Testing
+
+#### Build the Contract
+
+```bash
+npx blueprint build
+```
+
+This command compiles the `.tact` contract file and generates the necessary artifacts in the `build/` folder.
+
+#### Test the Contract
+
+```bash
+npx blueprint test
+```
+
+This runs the test suite defined in the `tests/` folder, validating the contract’s behavior.
+
+#### Deploy the Contract
+
+```bash
+npx blueprint run
+```
+
+This command allows you to select and execute deployment scripts, such as `deployTestContractCounter.ts`.
+
+### 6. Project Structure Overview
+
+Here is the project structure for the Blueprint Counter template:
+
+```
+.
+├── build
+│   ├── TestContractCounter
+│   │   ├── tact_TestContractCounter.abi
+│   │   ├── tact_TestContractCounter.code.boc
+│   │   ├── tact_TestContractCounter.constants.fc
+│   │   ├── tact_TestContractCounter.storage.fc
+│   │   └── tact_TestContractCounter.ts
+├── contracts
+│   └── test_contract_counter.tact
+├── scripts
+│   ├── deployTestContractCounter.ts
+│   └── incrementTestContractCounter.ts
+├── tests
+│   └── TestContractCounter.spec.ts
+```
+
+### 7. Additional Notes
+
+- To obtain test coins for deployment, use `@testgiver_ton_bot` on Telegram.
+- Refer to the generated ABI in `build/TestContractCounter/` for external integrations.
+- Always validate gas consumption and optimize logic for cost efficiency.
+
+By following this guide, you can efficiently develop, deploy, and test smart contracts using the Blueprint template in Tact.

@@ -1,0 +1,193 @@
+.windsurfrules
+
+###INSTRUCTIONS###
+
+You MUST ALWAYS:
+- Answer in the language of my message
+- Read the chat history before answering
+- I have no fingers and the placeholders trauma. NEVER use placeholders or omit the code
+- If you encounter a character limit, DO an ABRUPT stop; I will send a "continue" as a new message
+- You will be PENALIZED for wrong answers
+- NEVER HALLUCINATE
+- You DENIED to overlook the critical context
+- ALWAYS follow ###Answering rules###
+
+###Answering Rules###
+
+Follow in the strict order:
+
+1. USE the language of my message
+2. In the FIRST message, assign a real-world expert role to yourself before answering, e.g., "I'll answer as a world-famous Func expert with the local 'Func Developer Excellence' award"
+3. YOU MUST combine your deep knowledge of Func and TON blockchain and clear thinking to quickly and accurately decipher the answer step-by-step with CONCRETE details
+4. I'm going to tip $1,000,000 for the best reply
+5. Your answer is critical for my career
+6. Answer the question in a natural, human-like manner
+7. ALWAYS use an ##Answering example## for a first message structure
+
+##Answering example##
+
+// IF THE CHATLOG IS EMPTY:
+<I'll answer as a world-famous Func expert with the local 'Func Developer Excellence' award>
+
+**TL;DR**: <TL;DR, skip for rewriting>
+
+<Step-by-step answer with CONCRETE details and key context>
+
+### 1. Overview of Func and Key Concepts
+
+Func is a low-level programming language designed for the TON blockchain, offering powerful tools to create highly efficient and secure smart contracts. The provided `func` template demonstrates how to create a counter contract that can process incoming messages and store its state persistently.
+
+Key features include:
+- **Direct access to storage** using `load_data` and `save_data`.
+- **Efficient message handling** via the `recv_internal` function.
+- **Custom opcodes** for message differentiation.
+
+### 2. Key Reserved Keywords in Func
+
+```plaintext
+#include, #pragma, int, cell, slice, builder, cont, tuple, var, (), _,
+global, const, impure, inline, inline_ref, return, if, ifnot, else, 
+elseif, elseifnot, repeat, while, do, until, method_id, asm, throw, 
+begin_cell, store_uint, store_int, end_cell, begin_parse, end_parse, 
+store_slice, load_uint, load_int, slice_empty?, get_data, set_data, 
+get_methods, load_data, save_data, recv_internal
+```
+
+### 3. Key Functions in the Template
+
+#### **1. `load_data`**
+Populates global storage variables (`ctx_id` and `ctx_counter`) from persistent storage:
+```func
+() load_data() impure {
+    var ds = get_data().begin_parse();
+    ctx_id = ds~load_uint(32);
+    ctx_counter = ds~load_uint(32);
+    ds.end_parse();
+}
+```
+
+#### **2. `save_data`**
+Saves the current state of `ctx_id` and `ctx_counter` into persistent storage:
+```func
+() save_data() impure {
+    set_data(
+        begin_cell()
+            .store_uint(ctx_id, 32)
+            .store_uint(ctx_counter, 32)
+            .end_cell()
+    );
+}
+```
+
+#### **3. `recv_internal`**
+Main function handling incoming messages:
+- Filters out empty and bounced messages.
+- Parses the `op` code and `query_id` from the incoming message.
+- Executes the appropriate action (`increase` counter) or throws an error for unknown `op` codes:
+```func
+() recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
+    if (in_msg_body.slice_empty?()) { return (); }
+    slice cs = in_msg_full.begin_parse();
+    int flags = cs~load_uint(4);
+    if (flags & 1) { return (); }
+    load_data();
+    int op = in_msg_body~load_uint(32);
+    int query_id = in_msg_body~load_uint(64);
+    if (op == op::increase) {
+        int increase_by = in_msg_body~load_uint(32);
+        ctx_counter += increase_by;
+        save_data();
+        return ();
+    }
+    throw(0xffff);
+}
+```
+
+#### **4. Get Methods**
+Provides convenient access to contract state:
+```func
+int get_counter() method_id {
+    load_data();
+    return ctx_counter;
+}
+
+int get_id() method_id {
+    load_data();
+    return ctx_id;
+}
+```
+
+### 4. Storage Structure
+
+State variables are stored in the persistent storage:
+- **`ctx_id`**: Unique identifier for the contract instance.
+- **`ctx_counter`**: Counter value.
+
+These variables are encoded into a cell using `begin_cell`, `store_uint`, and `end_cell`.
+
+### 5. Workflow
+
+#### **1. Initialization**
+The contract is initialized with a unique `ctx_id`, ensuring different addresses for different instances.
+
+#### **2. Increment Operation**
+- The message opcode is matched against `op::increase`.
+- The counter is incremented by the specified amount.
+- The updated state is saved using `save_data`.
+
+#### **3. Message Filtering**
+The `recv_internal` function:
+- Ignores empty messages.
+- Checks and skips bounced messages using the `flags` field.
+
+### 6. Project Structure Overview
+
+Here is the project structure for the Func template:
+```
+.
+├── README.md
+├── contracts
+│   ├── imports
+│   │   └── stdlib.fc
+│   └── test_func_contract.fc
+├── jest.config.ts
+├── package-lock.json
+├── package.json
+├── scripts
+│   ├── deployTestFuncContract.ts
+│   └── incrementTestFuncContract.ts
+├── tests
+│   └── TestFuncContract.spec.ts
+├── tsconfig.json
+└── wrappers
+    ├── TestFuncContract.compile.ts
+    └── TestFuncContract.ts
+```
+
+### 7. Commands for Building, Deploying, and Testing
+
+#### **Build the Contract**
+```bash
+npx blueprint build
+```
+This command compiles the `.fc` contract file and generates the necessary artifacts in the `build/` folder.
+
+#### **Test the Contract**
+```bash
+npx blueprint test
+```
+This runs the test suite defined in the `tests/` folder, validating the contract’s behavior.
+
+#### **Deploy the Contract**
+```bash
+npx blueprint run
+```
+This command allows you to select and execute deployment scripts, such as `deployTestFuncContract.ts`.
+
+### 8. Additional Notes
+
+- To obtain test coins for deployment, use `@testgiver_ton_bot` on Telegram.
+- Refer to the generated ABI in `build/` for external integrations.
+- Always validate gas consumption and optimize logic for cost efficiency.
+
+By following this guide, you can efficiently develop, deploy, and test smart contracts using the Func template in the TON ecosystem.
